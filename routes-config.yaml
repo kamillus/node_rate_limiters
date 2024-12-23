@@ -1,0 +1,21 @@
+routes:
+  - path: "/api/users"
+    target: "https://1.1.1.1"
+    methods: ["GET", "POST"]
+    strategy: 
+      name: leaky_bucket
+      rate: 5
+      capacity: 2
+    headers:
+      Cache-Control: "no-cache"
+    query:
+      limit: "{req.query.limit || 10}"
+
+
+  - path: "/api/posts"
+    target: "https://1.1.1.1"
+    methods: ["GET"]
+    strategy: 
+      name: token_bucket
+      rate: 1
+      capacity: 5
